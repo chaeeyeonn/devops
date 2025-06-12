@@ -7,9 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
+
+import com.sist.web.entity.FoodEntity;
 import com.sist.web.service.*;
 import com.sist.web.vo.FoodListVO;
 @Controller
+/*
+ *   1. Git Action 
+ *   2. 새로운 운영체제 : Docker 
+ *                      |
+ *                   쿠바네티스 => 클러스트 
+ *   ------------------------  젠킨스 
+ */
 public class FoodController {
    @Autowired
    private FoodService fService;
@@ -39,6 +48,15 @@ public class FoodController {
 	   model.addAttribute("totalpage", totalpage);
 	   model.addAttribute("startPage", startPage);
 	   model.addAttribute("endPage", endPage);
+	   model.addAttribute("main_html", "main/home");
+	   return "index";
+   }
+   @GetMapping("/detail")
+   public String food_detail(@RequestParam("fno") int fno,Model model)
+   {
+	   FoodEntity vo=fService.foodDetailData(fno);
+	   model.addAttribute("vo", vo);
+	   model.addAttribute("main_html", "food/detail");
 	   return "index";
    }
 }
